@@ -26,20 +26,22 @@
 static NSUInteger const kAFHTTPMinimumInitialDataCapacity = 1024;
 static NSUInteger const kAFHTTPMaximumInitialDataCapacity = 1024 * 1024 * 8;
 
-typedef enum {
-    AFHTTPOperationReadyState       = 1,
-    AFHTTPOperationExecutingState   = 2,
-    AFHTTPOperationFinishedState    = 3,
-    AFHTTPOperationCancelledState   = 4,
-} AFHTTPOperationState;
 
 NSString * const AFNetworkingErrorDomain = @"com.alamofire.networking.error";
 
 NSString * const AFHTTPOperationDidStartNotification = @"com.alamofire.networking.http-operation.start";
 NSString * const AFHTTPOperationDidFinishNotification = @"com.alamofire.networking.http-operation.finish";
 
+#ifdef __LP64__
+typedef enum {
+    AFHTTPOperationReadyState       = 1,
+    AFHTTPOperationExecutingState   = 2,
+    AFHTTPOperationFinishedState    = 3,
+    AFHTTPOperationCancelledState   = 4,
+} AFHTTPOperationState;
 typedef void (^AFHTTPRequestOperationProgressBlock)(NSUInteger totalBytes, NSUInteger totalBytesExpected);
 typedef void (^AFHTTPRequestOperationCompletionBlock)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *data, NSError *error);
+#endif
 
 static inline NSString * AFKeyPathFromOperationState(AFHTTPOperationState state) {
     switch (state) {

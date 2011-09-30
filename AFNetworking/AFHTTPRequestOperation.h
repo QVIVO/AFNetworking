@@ -55,6 +55,17 @@ extern NSString * const AFHTTPOperationDidFinishNotification;
  @see NSOperation
  @see NSURLConnection
  */
+#ifndef __LP64__
+typedef enum {
+    AFHTTPOperationReadyState       = 1,
+    AFHTTPOperationExecutingState   = 2,
+    AFHTTPOperationFinishedState    = 3,
+    AFHTTPOperationCancelledState   = 4,
+} AFHTTPOperationState;
+typedef void (^AFHTTPRequestOperationProgressBlock)(NSUInteger totalBytes, NSUInteger totalBytesExpected);
+typedef void (^AFHTTPRequestOperationCompletionBlock)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *data, NSError *error);
+#endif
+
 @interface AFHTTPRequestOperation : NSOperation {
 @private    
     NSSet *_runLoopModes;
@@ -68,6 +79,14 @@ extern NSString * const AFHTTPOperationDidFinishNotification;
     NSUInteger _totalBytesRead;
     NSMutableData *_dataAccumulator;
     NSOutputStream *_outputStream;
+    
+#ifndef __LP64__
+    AFHTTPOperationState _state;
+    BOOL _cancelled;
+    AFHTTPRequestOperationProgressBlock _uploadProgress;
+    AFHTTPRequestOperationProgressBlock _downloadProgress;
+    AFHTTPRequestOperationCompletionBlock _completion;
+#endif
 }
 
 @property (nonatomic, retain) NSSet *runLoopModes;
