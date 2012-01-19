@@ -25,19 +25,10 @@
 static NSUInteger const kAFHTTPMinimumInitialDataCapacity = 1024;
 static NSUInteger const kAFHTTPMaximumInitialDataCapacity = 1024 * 1024 * 8;
 
-typedef enum {
-    AFHTTPOperationReadyState       = 1,
-    AFHTTPOperationExecutingState   = 2,
-    AFHTTPOperationFinishedState    = 3,
-} AFOperationState;
-
 NSString * const AFNetworkingErrorDomain = @"com.alamofire.networking.error";
 
 NSString * const AFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
 NSString * const AFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
-
-typedef void (^AFURLConnectionOperationProgressBlock)(NSInteger bytes, NSInteger totalBytes, NSInteger totalBytesExpected);
-typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
 
 static inline NSString * AFKeyPathFromOperationState(AFOperationState state) {
     switch (state) {
@@ -53,6 +44,7 @@ static inline NSString * AFKeyPathFromOperationState(AFOperationState state) {
 }
 
 @interface AFURLConnectionOperation ()
+
 @property (readwrite, nonatomic, assign) AFOperationState state;
 @property (readwrite, nonatomic, assign, getter = isCancelled) BOOL cancelled;
 @property (readwrite, nonatomic, assign) NSURLConnection *connection;

@@ -22,6 +22,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    AFHTTPOperationReadyState       = 1,
+    AFHTTPOperationExecutingState   = 2,
+    AFHTTPOperationFinishedState    = 3,
+} AFOperationState;
+
+typedef void (^AFURLConnectionOperationProgressBlock)(NSInteger bytes, NSInteger totalBytes, NSInteger totalBytesExpected);
+typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
+
 /**
  Indicates an error occured in AFNetworking.
  
@@ -86,6 +95,14 @@ extern NSString * const AFNetworkingOperationDidFinishNotification;
     NSInteger _totalBytesRead;
     NSMutableData *_dataAccumulator;
     NSOutputStream *_outputStream;
+    
+    AFOperationState _state;
+    BOOL _cancelled;
+    NSString *_responseString;
+    AFURLConnectionOperationProgressBlock _uploadProgress;
+    AFURLConnectionOperationProgressBlock _downloadProgress;
+    AFURLConnectionOperationAuthenticationChallengeBlock _authenticationBlock;
+
 }
 
 ///-------------------------------
