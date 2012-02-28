@@ -58,7 +58,9 @@ static char kAFImageRequestOperationObjectKey;
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPShouldHandleCookies:NO];
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_6
     [request setHTTPShouldUsePipelining:YES];
+#endif
     
     [self setImageWithURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
 }
